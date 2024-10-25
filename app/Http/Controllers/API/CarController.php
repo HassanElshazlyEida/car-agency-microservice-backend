@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Car;
+use App\Events\CarUpdated;
+use App\Jobs\CarUpdatedJob;
 use App\Traits\ApiResponse;
+use App\Enums\ModelStatusEnum;
 use App\Http\Requests\CarRequest;
 use App\Http\Resources\CarResource;
 use App\Http\Controllers\Controller;
@@ -23,7 +26,11 @@ class CarController extends Controller
     public function store(CarRequest $request)
     {
         $car = Car::create($request->validated());
-        return $this->successResponse(new CarResource($car), 'Car created successfully');
+
+        $carResource = new CarResource($car);
+        dispatch(new CarUpdatedJob($carResource,ModelStatusEnum::created()));
+
+        return $this->successResponse($carResource, 'Car created successfully');
     }
 
     public function show(Car $car)
@@ -35,8 +42,13 @@ class CarController extends Controller
     {
         // IF THE OWNER OF THE CAR
         $this->authorize('update', $car);
+
         $car->update($request->validated());
-        return $this->successResponse(new CarResource($car), 'Car updated successfully');
+
+        $carResource = new CarResource($car);
+        dispatch(new CarUpdatedJob($carResource,ModelStatusEnum::updated()));
+
+        return $this->successResponse($carResource, 'Car updated successfully');
     }
 
     public function destroy(Car $car)
@@ -45,6 +57,9 @@ class CarController extends Controller
         $this->authorize('delete', $car);
         // soft delete
         $car->delete();
+
+        dispatch(new CarUpdatedJob(new CarResource($car),ModelStatusEnum::deleted()));
+
         return $this->successResponse(null, 'Car deleted successfully');
     }
 
