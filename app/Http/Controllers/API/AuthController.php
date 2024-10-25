@@ -6,6 +6,7 @@ use App\Http\Requests\LoginUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Resources\UserResource;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,6 @@ class AuthController
         return $this->respondWithToken('User logged in successfully', $token);
     }
     public function user(Request $request){
-        return $request?->user();
+        return new UserResource($request?->user());
     }
 }

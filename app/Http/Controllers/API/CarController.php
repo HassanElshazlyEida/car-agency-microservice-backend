@@ -15,7 +15,8 @@ class CarController extends Controller
 
     public function index()
     {
-        return $this->successResponse(new CarCollection(Car::available()->paginate(20)), 'Cars retrieved successfully');
+        // TODO (IMPROVEMENT): Use Caching
+        return $this->successResponse(new CarCollection(Car::with('user')->available()->paginate(20)), 'Cars retrieved successfully');
     }
 
 
@@ -35,7 +36,7 @@ class CarController extends Controller
         // IF THE OWNER OF THE CAR
         $this->authorize('update', $car);
         $car->update($request->validated());
-        return $this->successResponse($car, 'Car updated successfully');
+        return $this->successResponse(new CarResource($car), 'Car updated successfully');
     }
 
     public function destroy(Car $car)
