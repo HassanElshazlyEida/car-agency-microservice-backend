@@ -9,7 +9,11 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
+        "pusher/pusher-php-server": "^7.2",
+        "spatie/laravel-enum": "^3.1",
+        "veelasky/laravel-hashid": "^3.1",
+        "hassan-elshazly-eida/user-service-api": "v1.1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -20,11 +24,18 @@
         "phpunit/phpunit": "^10.1",
         "spatie/laravel-ignition": "^2.0"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/HassanElshazlyEida/user-service-api.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Services\\": "vendor/hassan-elshazly-eida/user-service-api/src/"
         }
     },
     "autoload-dev": {
