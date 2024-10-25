@@ -17,6 +17,12 @@ trait ApiResponse
 
     public function successResponse($data, $message = 'Success', $statusCode = 200)
     {
+        if ($data instanceof \Illuminate\Http\Resources\Json\ResourceCollection) {
+            return response()->json([
+                'message' => $message,
+                'data'=> $data->response()->getData(true), 
+            ], $statusCode);
+        }
         return response()->json([
             'message' => $message,
             'data' => $data,
