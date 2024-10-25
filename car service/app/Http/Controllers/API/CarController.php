@@ -11,6 +11,7 @@ use App\Http\Requests\CarRequest;
 use App\Http\Resources\CarResource;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CarCollection;
+use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
@@ -28,7 +29,8 @@ class CarController extends Controller
         $car = Car::create($request->validated());
 
         $carResource = new CarResource($car);
-        dispatch(new CarUpdatedJob($carResource,ModelStatusEnum::created()));
+        
+        CarUpdatedJob::dispatch($carResource->toArray($request),ModelStatusEnum::created()->value);
 
         return $this->successResponse($carResource, 'Car created successfully');
     }
@@ -43,17 +45,17 @@ class CarController extends Controller
         $car->update($request->validated());
 
         $carResource = new CarResource($car);
-        dispatch(new CarUpdatedJob($carResource,ModelStatusEnum::updated()));
+        CarUpdatedJob::dispatch($carResource->toArray($request),ModelStatusEnum::updated()->value);
 
         return $this->successResponse($carResource, 'Car updated successfully');
     }
 
-    public function destroy(Car $car)
+    public function destroy(Request $request, Car $car)
     {
         // soft delete
         $car->delete();
 
-        dispatch(new CarUpdatedJob(new CarResource($car),ModelStatusEnum::deleted()));
+        CarUpdatedJob::dispatch((new CarResource($car))->toArray($request),ModelStatusEnum::deleted()->value);
 
         return $this->successResponse(null, 'Car deleted successfully');
     }

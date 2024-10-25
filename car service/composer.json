@@ -7,13 +7,14 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
+        "hassan-elshazly-eida/user-service-api": "v1.1.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "pusher/pusher-php-server": "^7.2",
         "spatie/laravel-enum": "^3.1",
         "veelasky/laravel-hashid": "^3.1",
-        "hassan-elshazly-eida/user-service-api": "v1.1.0"
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
