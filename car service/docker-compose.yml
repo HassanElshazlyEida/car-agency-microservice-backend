@@ -1,0 +1,53 @@
+services:
+  cars_backend:
+    container_name: cars_ms_container
+    build: .
+    ports:
+      - 8002:8000
+    volumes:
+      - .:/app
+    command: 'php artisan serve --host=0.0.0.0'
+    depends_on:
+      - cars_db
+    networks:
+      - cars
+      - users
+
+  cars_queue:
+    build: .
+    command: 'php artisan queue:work'
+    depends_on:
+      - cars_db
+    networks:
+      - cars
+
+  cars_db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: cars_service
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+
+    networks:
+      - cars
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+        - '8082:8002'
+    environment:
+        PMA_ARBITRARY: 1
+        MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+    networks:
+      - cars
+
+
+networks:
+  cars:
+  users:
+    name: users
+    external: true
+

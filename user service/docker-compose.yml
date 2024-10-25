@@ -1,0 +1,49 @@
+services:
+  users_backend:
+    container_name: users_service
+    build: .
+    ports:
+      - 8001:8000
+    volumes:
+      - .:/app
+    command: 'php artisan serve --host=0.0.0.0'
+    depends_on:
+      - users_db
+    networks:
+      - users
+
+  # users_queue:
+  #   build: .
+  #   command: 'php artisan queue:work'
+  #   depends_on:
+  #     - users_db
+  #   networks:
+  #     - users
+
+  users_db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: users_service
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+
+    networks:
+      - users
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+        - '8081:8000'
+    environment:
+        PMA_ARBITRARY: 1
+        MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+    networks:
+      - users
+
+
+networks:
+  users:
+    name: users
