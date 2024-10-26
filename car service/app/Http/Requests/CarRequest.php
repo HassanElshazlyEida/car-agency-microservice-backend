@@ -17,8 +17,8 @@ class CarRequest extends FormRequest
     {
         $isRequired = $this->isMethod('post') ? 'required':'sometimes';
         return [
-            'name' => "$isRequired|string|max:255",
-            'model' => "$isRequired|string|max:255",
+            'name' => "$isRequired|string|max:255|min:3",
+            'model' => "$isRequired|string|max:255|min:3",
             'price' => "$isRequired|numeric|min:0",
             'availability' => [$isRequired,new EnumRule(CarAvailabilityEnum::class)],
         ];
