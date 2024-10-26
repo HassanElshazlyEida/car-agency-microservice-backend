@@ -19,7 +19,7 @@ class CarFactory extends Factory
         return [
             'name' => fake()->company(),
             'model' => fake()->year(),
-            'price' => fake()->randomFloat(2,10000,500000),
+            'price' => fake()->randomFloat(2,1000,50000),
             'availability' => fake()->randomElement(CarAvailabilityEnum::toValues()),
         ];
     }

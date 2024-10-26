@@ -20,7 +20,7 @@ class CarController extends Controller
     public function index()
     {
         // TODO (IMPROVEMENT): Use Caching
-        return $this->successResponse(new CarCollection(Car::available()->paginate(20)), 'Cars retrieved successfully');
+        return $this->successResponse(new CarCollection(Car::orderby('created_at','desc')->available()->paginate(20)), 'Cars retrieved successfully');
     }
 
 
