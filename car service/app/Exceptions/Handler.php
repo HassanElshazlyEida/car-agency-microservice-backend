@@ -27,4 +27,10 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    public function report(Throwable $exception)
+    {
+        \Sentry\captureException($exception);
+        
+        parent::report($exception);
+    }
 }

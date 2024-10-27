@@ -4,6 +4,7 @@
 -  [Postman API Collection ](#postman-api-collection)
 -  [Bonus Features](#bonus-features)
 
+
 ## Microservices Interaction
 ### Overview
 In this architecture, we have two main microservices: User Service and Car Service. They interact with each other through API requests, token-based authentication, and event-driven communication. Below is a detailed description of how these microservices work together.
@@ -121,3 +122,5 @@ JWT_SECRET= # Generate it using `php artisan jwt:secret`
 - RabbitMQ Message Broker: The architecture utilizes RabbitMQ for handling event-driven communication between the microservices, ensuring reliable message delivery and processing.
 
 - API Collection: A Postman API collection is available for testing the endpoints, simplifying the process of validating API functionality.
+
+- Integrate with Sentry : Sentry provides error tracking for your Laravel application, allowing you to monitor and respond to issues in real-time. Follow the setup steps outlined above to integrate Sentry seamlessly into your application.
